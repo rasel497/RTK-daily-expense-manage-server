@@ -46,6 +46,28 @@ app.post('/addExpensedata/', (req, res) => {
     });
 });
 
+// update or edit || create
+app.put('/listUpdate/:id', (req, res) => {
+    const id = req.params.id;
+    console.log('kkk', req.body);
+    const sql = 'UPDATE allexpensedata SET date = ?, purpose_title = ?, deposit = ?, withdraw = ? WHERE id = ?';
+    const expenseUpdate = {
+        id,
+        date: req.body.date,
+        purpose_title: req.body.purpose_title,
+        deposit: req.body.type === 'deposit' ? req.body.amount : 0,
+        withdraw: req.body.type === 'withdraw' ? req.body.amount : 0
+    };
+    db.query(sql, [expenseUpdate.date, expenseUpdate.purpose_title, expenseUpdate.deposit, expenseUpdate.withdraw, id], (error) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Error updating exphistory.' });
+        } else {
+            res.json({ message: 'exphistory updated successfully.' });
+        }
+    });
+});
+
 // inital test
 app.get('/', (req, res) => {
     res.send('Server is running...')
