@@ -47,7 +47,7 @@ app.post('/addExpensedata/', (req, res) => {
 });
 
 // update or edit || create
-app.put('/listUpdate/:id', (req, res) => {
+app.put('/updateListData/:id', (req, res) => {
     const id = req.params.id;
     console.log('kkk', req.body);
     const sql = 'UPDATE allexpensedata SET date = ?, purpose_title = ?, deposit = ?, withdraw = ? WHERE id = ?';
