@@ -25,6 +25,27 @@ app.get('/allExpensedata/', (req, res) => {
         return res.json(result)
     });
 });
+
+// create new list/Add post
+app.post('/addExpensedata/', (req, res) => {
+    const sql = "INSERT INTO allexpensedata (`date`,`purpose_title`, `deposit`,`withdraw`) VALUES (?, ?, ?, ?)";
+    // console.log(req.body.type === 'withdraw')
+    const expensePost = {
+        date: req.body.date,
+        purpose_title: req.body.purpose_title,
+        deposit: req.body.type === 'deposit' ? req.body.amount : 0,
+        withdraw: req.body.type === 'withdraw' ? req.body.amount : 0
+    };
+    const formData = [expensePost.date, expensePost.purpose_title, expensePost.deposit, expensePost.withdraw];
+    console.log('GG', formData);
+    db.query(sql, formData, (err, result) => {
+        if (err)
+            return res.send({ Message: "Error inside the server on post" });
+        console.log(result)
+        return res.send(result);
+    });
+});
+
 // inital test
 app.get('/', (req, res) => {
     res.send('Server is running...')
