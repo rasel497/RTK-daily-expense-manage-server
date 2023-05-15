@@ -68,11 +68,21 @@ app.put('/updateListData/:id', (req, res) => {
     });
 });
 
+// delete list data from db table list
+app.delete('/deleteListData/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "DELETE FROM allexpensedata WHERE id = ?"
+    db.query(sql, [id], (err, result) => {
+        if (err)
+            return res.json({ Message: "Error inside the server on del" })
+        return res.json(result);
+    });
+});
+
 // inital test
 app.get('/', (req, res) => {
     res.send('Server is running...')
 });
-
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
