@@ -16,6 +16,15 @@ const db = mysql.createConnection({
     database: 'daily_expense-online'
 });
 
+// get all list of all history
+app.get('/allExpensedata/', (req, res) => {
+    const sql = 'SELECT * FROM allexpensedata';
+    db.query(sql, (err, result) => {
+        if (err)
+            return res.json({ Message: "Error inside the server" })
+        return res.json(result)
+    });
+});
 // inital test
 app.get('/', (req, res) => {
     res.send('Server is running...')
